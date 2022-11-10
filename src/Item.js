@@ -15,26 +15,23 @@ export default function Item(props) {
     }
   }
 
-  if (!info) {
-    return null;
-  }
-
   return (
-    <div className='mx-10'>
-      <div className="">
-        <h2 className="border w-min px-5 bg-blue-300 rounded-lg">{info.name}</h2>
-        <p className="border w-min px-5 bg-blue-300 rounded-lg" >{info.desc}</p>
+    <div className="item">
+      <img src={info.image} alt="" />
+      <div className="item-info">
+        <h2>{info.name}</h2>
+        <p>{info.desc}</p>
       </div>
-      <div className="w-min px-5">
+      <div className="item-quantity">
         <button
-          className="px-3 border rounded-full bg-slate-500"
+          className="bg-blue-500 px-2 rounded-2xl mx-3"
           disabled={total === 0}
           onClick={handleRemoveClick}
         >
           -
         </button>
-        <h3 className="px-3 border rounded-full bg-red-300">{total ? total : ""}</h3>
-        <button className="px-3 border rounded-full bg-slate-500" onClick={handleAddClick}>
+        <h3 className="item-total">{total ? total : ""}</h3>
+        <button className="bg-blue-500 px-2 rounded-2xl mx-3" onClick={handleAddClick}>
           +
         </button>
       </div>

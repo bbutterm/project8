@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/*:root {
+/*
+:root {
   --primary: #0000ff;
   --secondary: #5efc8d;
   --light-gray: #cccccc;

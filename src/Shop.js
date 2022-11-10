@@ -1,76 +1,37 @@
-import React, { useEffect, useState } from "react";
-import ItemsList from "./ItemsList";
-import AddItem from "./AddItem";
+import React, { useState, useEffect } from "react";
+import Item from "./Item.js";
 
 export default function Shop() {
-  const [items, setItems] = useState(() => {
-    let result = JSON.parse(localStorage.getItem("items"));
-    if (result) return result;
-    else {
-      return [];
-    }
-  });
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [valid, setValid] = useState("");
+  const api = "https://covid-shop-mcs.herokuapp.com/";
+  const [data, setData] = useState();
+
   useEffect(() => {
-    localStorage.setItem("items", JSON.stringify(items));
-    if (items.length === 0) {
-      document.title = "Товары отсутствуют";
-    } else {
-      document.title = `${items.length} товаров`;
-    }
-  }, [items]);
-  function handleFormSubmit(event) {
-    event.preventDefault();
-
-    if (!name) {
-      setValid("Введите название");
-      return;
-    }
-    if (!desc) {
-      setValid("Введите описание ");
-      return;
-    }
-    setItems([
-      ...items,
-      {
-        id: items.length + 1,
-        name: name,
-        desc: desc
+    (async () => {
+      try {
+        const response = await fetch(api);
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        console.log("finished");
       }
-    ]);
-    let test = JSON.parse(localStorage.getItem("items"));
-    console.log(test);
-    setName("");
-    setDesc("");
-    setValid("");
+    })();
+  }, []);
+  if (data) {
+    return (
+      <div className="shop">
+        <ul>
+          {data.map((item) => {
+            return (
+              <li key={item.id}>
+                <Item info={item} />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
   }
-
-  function handleNameChange(event) {
-    setName(event.target.value);
-  }
-
-  function handleDescChange(event) {
-    setDesc(event.target.value);
-  }
-
-  function handleDeleteClick(id) {
-    setItems(items.filter((item) => item.id !== id));
-  }
-
-  return (
-    <>
-      <AddItem
-        name={name}
-        desc={desc}
-        valid={valid}
-        onNameChange={handleNameChange}
-        onDescChange={handleDescChange}
-        onFormSubmit={handleFormSubmit}
-      />
-      <div>{items.length === 0 && <p>Добавьте первый товар</p>}</div>
-      <ItemsList items={items} onDeleteClick={handleDeleteClick} />
-    </>
-  );
+  return <div className="shop"></div>;
 }
