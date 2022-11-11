@@ -15,23 +15,26 @@ export default function Item(props) {
     }
   }
 
+  if (!info) {
+    return null;
+  }
+
   return (
     <div className="item">
-      <img src={info.image} alt="" />
-      <div className="item-info">
-        <h2>{info.name}</h2>
-        <p>{info.desc}</p>
+      <div className="">
+        <h2 className="mx-5">{info.name}</h2>
+        <p className="mx-5">{info.desc}</p>
       </div>
       <div className="item-quantity">
         <button
-          className="bg-blue-500 px-2 rounded-2xl mx-3"
+          className="mx-3 border-double border-2 border-blue-500 rounded-2xl hover:bg-blue-600 px-2.5"
           disabled={total === 0}
           onClick={handleRemoveClick}
         >
           -
         </button>
-        <h3 className="item-total">{total ? total : ""}</h3>
-        <button className="bg-blue-500 px-2 rounded-2xl mx-3" onClick={handleAddClick}>
+        <h3 className="mx-5 ">{total ? total : ""}</h3>
+        <button className="mx-3 border-double border-2 border-blue-500 rounded-2xl hover:bg-blue-600 px-2" onClick={handleAddClick}>
           +
         </button>
       </div>
